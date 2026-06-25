@@ -1,0 +1,42 @@
+plugins {
+    id 'base'
+}
+
+// Cross-platform Python executable path resolution (Requirement 8.5)
+def pythonExecutable = System.getProperty('os.name').toLowerCase().contains('win')
+    ? 'venv\\Scripts\\python.exe'
+    : 'venv/bin/python'
+
+// Task 1: Create Python virtual environment (Requirement 8.1)
+task createVenv(type: Exec) {
+    description = 'Creates a Python virtual environment in the project root venv directory'
+    group = 'python'
+    commandLine 'python', '-m', 'venv', 'venv'
+}
+
+// Task 2: Install Python dependencies from requirements.txt (Requirement 8.2)
+task installDependencies(type: Exec) {
+    description = 'Installs Python dependencies from requirements.txt into the virtual environment'
+    group = 'python'
+    dependsOn createVenv
+    commandLine pythonExecutable, '-m', 'pip', 'install', '-r', 'requirements.txt'
+}
+
+// Task 3: Install Playwright Chromium browser binaries (Requirement 8.3)
+task installPlaywright(type: Exec) {
+    description = 'Installs Playwright Chromium browser binaries'
+    group = 'python'
+    dependsOn installDependencies
+    commandLine pythonExecutable, '-m', 'playwright', 'install', 'chromium'
+}
+
+// Task 4: Execute pytest test suite with Allure reporting (Requirement 8.4)
+task test(type: Exec) {
+    description = 'Runs pytest targeting the tests/ directory with verbose output, short traceback, and Allure reporting'
+    group = 'verification'
+    dependsOn installPlaywright
+    commandLine pythonExecutable, '-m', 'pytest', 'tests/',
+        '-v',
+        '--tb=short',
+        '--alluredir=allure-results'
+}

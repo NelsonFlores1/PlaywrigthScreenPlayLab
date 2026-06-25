@@ -1,0 +1,28 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Pytest
+.pytest_cache/
+
+# Allure reporting output
+allure-results/
+allure-report/
+
+# Screenshots (now managed by Allure)
+screenshots/
+
+# Gradle
+.gradle/
+build/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Kiro
+.kiro/
