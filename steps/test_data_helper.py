@@ -28,3 +28,17 @@ def generate_user_data() -> dict:
         "password": password,
         "confirm_password": password,
     }
+
+def static_user_data() -> dict:
+
+  
+    return {
+        "first_name": f"Jhon",
+        "last_name": f"Sanchez",
+        "address": f"25 06 Main St",
+        "city": "Springfield",
+        "state": "IL",
+        "zip_code": f"{random.randint(10000, 99999)}",
+        "ssn": f"{random.randint(100000000, 999999999)}",
+        
+    }
